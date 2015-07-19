@@ -16,10 +16,12 @@ class SleepMode
 
   def self.enable(mintues)
     %x[sudo systemsetup -setcomputersleep #{mintues}]
+    %x[defaults write com.apple.screensaver askForPassword 1]
   end
 
   def self.disable
     %x[sudo systemsetup -setcomputersleep Never]
+    %x[defaults write com.apple.screensaver askForPassword 0]
   end
 end
 
