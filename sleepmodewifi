@@ -1,0 +1,36 @@
+#!/usr/bin/env ruby
+
+ALLOWED_SSID = %w(CakeLabs PlanetExpress DLINK)
+SLEEP_TRIGGER = 1
+
+class Wifi
+  def self.ssid
+    %x[/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I | awk '/ SSID/ {print substr($0, index($0, $2))}'].delete!("\n")
+  end
+end
+
+class SleepMode
+  def self.status
+    %x[sudo systemsetup -getcomputersleep]
+  end
+
+  def self.enable(mintues)
+    %x[sudo systemsetup -setcomputersleep #{mintues}]
+  end
+
+  def self.disable
+    %x[sudo systemsetup -setcomputersleep Never]
+  end
+end
+
+puts "Current SSID #{Wifi.ssid}"
+
+if ALLOWED_SSID.include? Wifi.ssid
+  puts 'This SSID is trusted'
+  SleepMode.disable
+  puts 'Sleep mode has been disabled'
+else
+  puts 'This SSID isn\'t trusted'
+  SleepMode.enable(SLEEP_TRIGGER)
+  puts "Sleep mode will trigger after #{SLEEP_TRIGGER} minute(s)"
+end
