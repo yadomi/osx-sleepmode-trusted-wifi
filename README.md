@@ -10,7 +10,7 @@ It was tested with Ruby > 2.2.0
 Configuration
 -------------
 
-Edit **./trustedwifi** by setting some variables:
+Edit **./sleepmodewifi** by setting some variables:
 
 - `ALLOWED_SSID`: List here all your trusted wifi SSID
 - `SLEEP_TRIGGER`: The time before sleep when not connected to a trusted wifi
